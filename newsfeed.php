@@ -153,7 +153,7 @@
 
 						<?php if ($POSTS) : ?>
 							<?php foreach ($POSTS as $post) : ?>
-								<div class="col-sm-12">
+								<div class="col-sm-12" id="<?=$post['post_id'] ?>">
 									<div class="iq-card iq-card-block iq-card-stretch">
 										<div class="iq-card-body">
 											<div class="user-post-data">
@@ -169,16 +169,23 @@
 													<div class="media-support-info mt-2">
 														<h5 class="mb-0 d-inline-block">
 															<a href="?user_id=<?= $post['user_id'] ?>" class="">
-																<?php if ($post['username']) : ?>
-																	<?= $post['username'] ?>
-																<?php else :  ?>
+																<?php if ($post) : ?>
 																	<?= $post['firstname'] . " " . $post['lastname']; ?>
+																<?php else :  ?>
+																	<?= $post['username'] ?>
 																<?php endif; ?>
 															</a>
 														</h5>
 														<!-- <p class="mb-0 d-inline-block">Add New Post</p> -->
-														<p class="mb-0 text-primary">
-															<?= date("D, M Y h:i:s", strtotime($post['date'])); ?>
+														<p class="mb-0 text-primary d-flex-col">
+															<p>
+																<?php if($post['username']): ?>
+																	@<?= $post['username']; ?>
+																<?php else: ?>
+																	<?="" ?>
+																<?php endif; ?>
+															</p>
+															<p><?= date("D, M Y h:i:s", strtotime($post['date'])); ?></p>
 														</p>
 													</div>
 													<div class="iq-card-post-toolbar">
@@ -242,7 +249,7 @@
 														<div class="col-md-12 row m-0 p-0">
 															<?php foreach ($MEDIA_CONTENTS as $media) : ?>
 																<div class="col-sm-6 mt-3">
-																	<a href="javascript:void();">
+																	<a href="./post_uploads/<?= $media['file'] ?>">
 																		<?php if ($media['type'] === "image") : ?>
 																			<img src="./post_uploads/<?= $media['file'] ?>" alt="post-image" class="img-fluid rounded w-100">
 																		<?php else : ?>
@@ -267,6 +274,7 @@
 																	<?php $userLike = getUserPostLike($post["post_id"], $_SESSION['SOCIAL_LOGGED_USER']); ?>
 																	<button name="<?= $userLike ? 'unlike' : 'like' ?>" value="<?= $post['post_id'] ?>" class="dropdown-toggle" style="border: none; background-color: transparent;">
 																		<img src="images/icon/01.png" style="filter: <?= $userLike ? "none" : "grayscale(.7)"; ?>;" class="img-fluid" alt="">
+																			<input type="hidden" value="<?= $post['user_id'] ?>" name="notify">
 																	</button>
 																</div>
 															</form>
@@ -378,6 +386,7 @@
 												</ul>
 												<form method="post" class="comment-text d-flex align-items-center mt-3" action="./handlers/post_handler.php">
 													<input type="text" class="form-control rounded" placeholder="Write your comment..." required name="message">
+													<input type="hidden" value="<?= $post['user_id'] ?>" name="notify">
 													<div class="comment-attagement d-flex">
 														<button class="btn btn-primary mr-2" name="comment" value="<?= $post['post_id']; ?>">
 															send

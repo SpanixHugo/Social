@@ -5,6 +5,7 @@ session_start();
 require_once("../config/db.php");
 require_once("../utils/functions.php");
 require_once("../utils/errors.php");
+require_once("../store/user.php");
 
 // CREATING POST
 if (isset($_POST['post'])) {
@@ -69,10 +70,17 @@ if (isset($_POST['like'])) {
     $id = $_POST['like'];
     $userId = $_SESSION['SOCIAL_LOGGED_USER'];
     $likeId = uniqid("lyk_");
+    $notify = sanitizeInput($_POST['notify']);
 
     $result = makeQuery("INSERT INTO likes(like_id, user_id, post_id) VALUES ('$likeId', '$userId', '$id')");
 
     if (!$result) throw new AppException("Failed to like post");
+    
+    $not_id = uniqid("Not_");
+    $not_message = "Liked your post";
+    if($userId != $notify){
+      $result = makeQuery("INSERT INTO notification(not_id, post_id, notifier, not_type, not_message, notified) VALUES ('$not_id', '$id', '$userId', 'Post like', '$not_message', '$notify')");
+    }
 
     setAlert("Post liked!");
     redirect("../newsfeed");
@@ -81,6 +89,22 @@ if (isset($_POST['like'])) {
     redirect("../newsfeed");
   }
 }
+
+// Send a Notification
+// if(isset($_POST['like'])){
+//   try {
+    
+//     $not_id = uniqid("Not_");
+//     $notify = $_POST['notify'];
+//     $not_message = $user['firstname'] . " " . $user['lastname'] . " Liked your post";
+//     if($userId != $notify){
+//       $result = makeQuery("INSERT INTO notification(not_id, notifier, not_type, not_message, notified) VALUES ('$not_id', '$userId', 'Post like', '$not_message', '$notify')");
+//     }
+//   } catch (AppException $e) {
+//     setAlert($e->message, $e->type);
+//     redirect("../newsfeed");
+//   }
+// }
 
 // UNLIKE
 if (isset($_POST['unlike'])) {
@@ -108,10 +132,17 @@ if(isset($_POST['comment'])) {
     $post_id = $_POST['comment'];
     $comment_id = uniqid("cmt_");
     $user_id = $_SESSION['SOCIAL_LOGGED_USER'];
+    $notify = sanitizeInput($_POST['notify']);
 
     $result = makeQuery("INSERT INTO comments(comment_id, post_id, user_id, message) VALUES ('$comment_id', '$post_id', '$user_id', '$message')");
 
     if(!$result) throw new AppException("Failed to post comment!");
+
+    $not_id = uniqid("Not_");
+    $not_message = "Commented on your post";
+    if($user_id != $notify){
+      $result = makeQuery("INSERT INTO notification(not_id, notifier, not_type, not_message, notified) VALUES ('$not_id', '$user_id', 'Comment like', '$not_message', '$notify')");
+    }
 
     setAlert("Comment posted!");
     redirect("../newsfeed");

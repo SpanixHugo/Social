@@ -74,6 +74,7 @@ $PEOPLE_YOU_MAY_KNOW = getPeopleYouMayKnow($_SESSION['SOCIAL_LOGGED_USER']);
                                     <div class="d-flex align-items-center">
                                        <form action="./handlers/friend_handler.php" method="post">
                                           <input name="req_id" value="<?= $req['request_id'] ?>" type="hidden" />
+                                          <input type="hidden" value="<?= $request['user_id'] ?>" name="notify">
                                           <button name="confirm" value="<?= $request['user_id']; ?>" class="mr-3 btn btn-primary rounded">Confirm</button>
                                        </form>
                                        <form action="./handlers/friend_handler.php" method="post">

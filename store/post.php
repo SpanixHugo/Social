@@ -7,6 +7,13 @@ function getAllPosts () {
   return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
+function getAllMyPosts ($id) {
+  global $connect;
+  $query = "SELECT * FROM post Where user_id='$id' ORDER BY date DESC";
+  $result = mysqli_query($connect, $query);
+  return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
 function getPostLikes ($postId) {
   global $connect;
   $query = "SELECT * FROM likes INNER JOIN users ON likes.user_id = users.user_id WHERE post_id = '$postId'";

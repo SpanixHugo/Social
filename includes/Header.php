@@ -24,7 +24,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto navbar-list">
           <li>
-            <a href="profile.html" class="iq-waves-effect d-flex align-items-center">
+            <a href="profile" class="iq-waves-effect d-flex align-items-center">
               <?php if($USER['profile_pic']): ?>
                 <img src="./profile_pic/<?= $USER['profile_pic'] ?>" class="img-fluid rounded-circle mr-3" alt="user"> 
               <?php else: ?>
@@ -42,152 +42,111 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="search-toggle iq-waves-effect" href="#"><i class="ri-group-line"></i></a>
+            <a class="search-toggle iq-waves-effect" href="./friend-request"><i class="ri-group-line"></i></a>
             <div class="iq-sub-dropdown iq-sub-dropdown-large">
               <div class="iq-card shadow-none m-0">
                 <div class="iq-card-body p-0 ">
                   <div class="bg-primary p-3">
-                    <h5 class="mb-0 text-white">Friend Request<small class="badge  badge-light float-right pt-1">4</small></h5>
+                    <h5 class="mb-0 text-white">Friend Request<small class="badge  badge-light float-right pt-1"><?=count($FRIENS_REQUESTS) ?></small></h5>
                   </div>
-                  <div class="iq-friend-request">
-                    <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="images/user/01.jpg" alt="">
-                        </div>
-                        <div class="media-body ml-3">
-                          <h6 class="mb-0 ">Jaques Amole</h6>
-                          <p class="mb-0">40 friends</p>
-                        </div>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <a href="javascript:void();" class="mr-3 btn btn-primary rounded">Confirm</a>
-                        <a href="javascript:void();" class="mr-3 btn btn-secondary rounded">Delete Request</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="iq-friend-request">
-                    <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="images/user/02.jpg" alt="">
-                        </div>
-                        <div class="media-body ml-3">
-                          <h6 class="mb-0 ">Lucy Tania</h6>
-                          <p class="mb-0">12 friends</p>
-                        </div>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <a href="javascript:void();" class="mr-3 btn btn-primary rounded">Confirm</a>
-                        <a href="javascript:void();" class="mr-3 btn btn-secondary rounded">Delete Request</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="iq-friend-request">
-                    <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="images/user/03.jpg" alt="">
-                        </div>
-                        <div class="media-body ml-3">
-                          <h6 class="mb-0 ">Manny Petty</h6>
-                          <p class="mb-0">3 friends</p>
+                  <?php if($FRIENS_REQUESTS): ?>
+                    <?php foreach(array_slice($FRIENS_REQUESTS, 0, 5) as $request): ?>
+                      <div class="iq-friend-request">
+                        <?php $request_details = getUserById($request['sender']) ?> 
+                        <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
+                          <div class="d-flex align-items-center">
+                            <div class="">
+                              <?php if($request_details['profile_pic']): ?>
+                                <img class="avatar-40 rounded" src="./profile_pic/<?= $request_details['profile_pic'] ?>" alt="">
+                              <?php else: ?>
+                                <img class="avatar-40 rounded" src="images/user/01.jpg" alt="">
+                              <?php endif; ?>
+                            </div>
+                            <div class="media-body ml-3">
+                              <h6 class="mb-0 "><?= $request_details['firstname'] . " " . $request_details['lastname'] ?></h6>
+                              <?php $request_friends = getAllFriends($request['sender']) ?>
+                              <p class="mb-0"><?= count($request_friends) ?></p>
+                            </div>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <form action="./handlers/friend_handler.php" method="post">
+                              <input name="req_id" value="<?= $request['request_id'] ?>" type="hidden" />
+                              <button name="confirm" value="<?= $request_details['user_id']; ?>" class="mr-3 btn btn-primary rounded">Confirm</button>
+                            </form>
+                            <form action="./handlers/friend_handler.php" method="post">
+                              <button name="delete" value="<?= $request["request_id"]; ?>" class="mr-3 btn btn-danger rounded">Delete Request</button>
+                            </form>
+                          </div>
                         </div>
                       </div>
-                      <div class="d-flex align-items-center">
-                        <a href="javascript:void();" class="mr-3 btn btn-primary rounded">Confirm</a>
-                        <a href="javascript:void();" class="mr-3 btn btn-secondary rounded">Delete Request</a>
+                    <?php endforeach; ?>
+                    <?php if(count($FRIENS_REQUESTS) > 5): ?>
+                      <div class="text-center">
+                        <a href="./friend-request" class="mr-3 btn text-primary">View More Request</a>
                       </div>
-                    </div>
-                  </div>
-                  <div class="iq-friend-request">
-                    <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="images/user/04.jpg" alt="">
-                        </div>
-                        <div class="media-body ml-3">
-                          <h6 class="mb-0 ">Marsha Mello</h6>
-                          <p class="mb-0">15 friends</p>
-                        </div>
+                    <?php endif; ?>
+                  <?php else: ?>
+                      <!-- <div class="text-center">
+                        <a href="./friend-request" class="mr-3 btn text-primary">View More Request</a>
+                      </div> -->
+                      <div class="text-center">
+                        <p href="#" class="mr-3 btn text-primary">No Request</p>
                       </div>
-                      <div class="d-flex align-items-center">
-                        <a href="javascript:void();" class="mr-3 btn btn-primary rounded">Confirm</a>
-                        <a href="javascript:void();" class="mr-3 btn btn-secondary rounded">Delete Request</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <a href="#" class="mr-3 btn text-primary">View More Request</a>
-                  </div>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>
           </li>
           <li class="nav-item">
-            <a href="#" class="search-toggle iq-waves-effect">
+            <a href="./notification" class="search-toggle iq-waves-effect">
               <div id="lottie-beil"></div>
-              <span class="bg-danger dots"></span>
+                <?php if($NOTIFICATIONS): ?>
+                  <span class="bg-danger dots"></span>
+                <?php else: ?>
+                  <span class=""></span>
+                <?php endif; ?>
             </a>
             <div class="iq-sub-dropdown">
               <div class="iq-card shadow-none m-0">
                 <div class="iq-card-body p-0 ">
                   <div class="bg-primary p-3">
-                    <h5 class="mb-0 text-white">All Notifications<small class="badge  badge-light float-right pt-1">4</small></h5>
+                    <h5 class="mb-0 text-white">All Notifications<small class="badge  badge-light float-right pt-1"><?=count($NOTIFICATIONS) ?></small></h5>
                   </div>
-                  <a href="#" class="iq-sub-card">
-                    <div class="media align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded" src="images/user/01.jpg" alt="">
+                  <?php if($NOTIFICATIONS): ?>
+                    <?php foreach(array_slice($NOTIFICATIONS, 0, 5) as $Not): ?>
+                      <a href="#" class="iq-sub-card">
+                        <div class="media align-items-center">
+                          <div class="">
+                            <?php if($Not['profile_pic']): ?>
+                              <img class="avatar-40 rounded" src="./profile_pic/<?= $Not['profile_pic'] ?>" alt="">
+                              <?php else: ?>
+                                <img class="avatar-40 rounded" src="images/user/11.jpg" alt="">
+                            <?php endif; ?>
+                          </div>
+                          <div class="media-body ml-3">
+                            <h6 class="mb-0 "><?= $Not['firstname'] . " " . $Not['lastname'] ?></h6>
+                            <small class="float-right font-size-12"><?= $Not['time'] ?></small>
+                            <p class="mb-0"><?= $Not['not_message'] ?></p>
+                          </div>
+                        </div>
+                      </a>
+                    <?php endforeach; ?>
+                    <?php if(count($NOTIFICATIONS) > 5): ?>
+                      <div class="text-center">
+                        <a href="./notification" class="mr-3 btn text-primary">See More </a>
                       </div>
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0 ">Emma Watson Bni</h6>
-                        <small class="float-right font-size-12">Just Now</small>
-                        <p class="mb-0">95 MB</p>
-                      </div>
+                    <?php endif; ?>
+                  <?php else: ?>
+                    <div class="media-body ml-3">
+                      <h6 class="mb-0 ">No Notifications</h6>
                     </div>
-                  </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="media align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded" src="images/user/02.jpg" alt="">
-                      </div>
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0 ">New customer is join</h6>
-                        <small class="float-right font-size-12">5 days ago</small>
-                        <p class="mb-0">Cyst Bni</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="media align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded" src="images/user/03.jpg" alt="">
-                      </div>
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0 ">Two customer is left</h6>
-                        <small class="float-right font-size-12">2 days ago</small>
-                        <p class="mb-0">Cyst Bni</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="media align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded" src="images/user/04.jpg" alt="">
-                      </div>
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0 ">New Mail from Fenny</h6>
-                        <small class="float-right font-size-12">3 days ago</small>
-                        <p class="mb-0">Cyst Bni</p>
-                      </div>
-                    </div>
-                  </a>
+                  <?php endif; ?>
+                  
                 </div>
               </div>
             </div>
           </li>
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a href="#" class="search-toggle iq-waves-effect">
               <div id="lottie-mail"></div>
               <span class="bg-primary count-mail"></span>
@@ -256,7 +215,7 @@
                 </div>
               </div>
             </div>
-          </li>
+          </li> -->
         </ul>
         <ul class="navbar-list">
           <li>
@@ -270,7 +229,7 @@
                     <h5 class="mb-0 text-white line-height">Hello Bni Cyst</h5>
                     <span class="text-white font-size-12">Available</span>
                   </div>
-                  <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
+                  <a href="profile" class="iq-sub-card iq-bg-primary-hover">
                     <div class="media align-items-center">
                       <div class="rounded iq-card-icon iq-bg-primary">
                         <i class="ri-file-user-line"></i>
@@ -281,7 +240,7 @@
                       </div>
                     </div>
                   </a>
-                  <a href="profile-edit.html" class="iq-sub-card iq-bg-warning-hover">
+                  <a href="profile-edit" class="iq-sub-card iq-bg-warning-hover">
                     <div class="media align-items-center">
                       <div class="rounded iq-card-icon iq-bg-warning">
                         <i class="ri-profile-line"></i>

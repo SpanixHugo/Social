@@ -1,9 +1,9 @@
-<?php 
-  session_start(); 
+<?php
+session_start();
 
-  require_once("./config/db.php");
-  require_once("./utils/functions.php");
-  if(isset($_SESSION['SOCIAL_LOGGED_USER'])) redirect("./newsfeed");
+require_once("./config/db.php");
+require_once("./utils/functions.php");
+if (isset($_SESSION['SOCIAL_LOGGED_USER'])) redirect("./newsfeed");
 
 ?>
 
@@ -29,7 +29,6 @@
 </head>
 
 <body>
-  <?php include_once("./includes/Alert.php"); ?>
   <!-- loader Start -->
   <div id="loading">
     <div id="loading-center">
@@ -38,6 +37,7 @@
   <!-- loader END -->
   <!-- Sign in Start -->
   <section class="sign-in-page">
+    <?php include_once("./includes/Alert.php"); ?>
     <div id="container-inside">
       <div id="circle-small"></div>
       <div id="circle-medium"></div>
@@ -79,13 +79,13 @@
                 <input type="email" class="form-control mb-0" name="email" required id="exampleInputEmail1" placeholder="Enter email">
               </div>
               <div class="form-group">
-                <label for="exampleInputPassword1" >Password</label>
+                <label for="exampleInputPassword1">Password</label>
                 <a href="#" class="float-right">Forgot password?</a>
                 <input type="password" name="password" required class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
               </div>
               <div class="d-inline-block w-100">
                 <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
-                  <input type="checkbox"  class="custom-control-input" id="customCheck1">
+                  <input type="checkbox" class="custom-control-input" id="customCheck1">
                   <label class="custom-control-label" for="customCheck1">Remember Me</label>
                 </div>
                 <button type="submit" name="login" class="btn btn-primary float-right">Sign in</button>

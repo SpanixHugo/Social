@@ -20,6 +20,11 @@ if(isset($_POST['add-friend'])) {
     $result = makeQuery("INSERT INTO friend_request (sender, user_id) VALUES ('$userId', '$personId')");
 
     if(!$result) throw new AppException("Failed to send friend request");
+
+    $not_id = uniqid("Not_");
+    $not_message = "Sent you a friend request";
+    $result = makeQuery("INSERT INTO `notification`(not_id, notifier, not_message, notified) VALUES ('$not_id', '$userId', '$not_message', '$personId')");
+
     setAlert("Friend request sent");
     redirect("../friend-request");
   }
@@ -35,6 +40,7 @@ if(isset($_POST['confirm'])) {
     $requestId = $_POST['req_id'];
     $personId = $_POST['confirm'];
     $userId = $_SESSION['SOCIAL_LOGGED_USER'];
+    $notify = $_POST['notify'];
 
     // CHECK IF USER IS ALREADY IN FRIEND LIST
     $resultCheck = makeQuery("SELECT * FROM friends WHERE user_id = '$userId' AND person_id = '$personId'");
@@ -51,6 +57,11 @@ if(isset($_POST['confirm'])) {
     // DELETE THE FRIEND REQUEST
     $result = makeQuery("DELETE FROM friend_request WHERE request_id = '$requestId'");
     if(!$result) throw new AppException("Error deleting friend request");
+
+    $not_id = uniqid("Not_");
+    $not_message = "Accepted your friend request";
+
+    $result = makeQuery("INSERT INTO `notification`(not_id, notifier, not_message, notified) VALUES ('$not_id', '$userId', '$not_message', '$notify')");
 
     setAlert("Friend request accepted!");
     redirect("../friend-request");

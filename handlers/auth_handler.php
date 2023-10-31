@@ -53,6 +53,7 @@ if(isset($_POST['login'])) {
 
     // Verify if the passwords match
     if(!password_verify($password, $user['password'])) throw new AppException("Incorrect Credientials");
+    // if($password != $user['password']) throw new AppException("Incorrect Credientials");
 
     // Session for the logged user 
     $_SESSION['SOCIAL_LOGGED_USER'] = $user['user_id'];
@@ -75,3 +76,4 @@ if(isset($_POST['logout'])) {
   session_destroy();
   redirect("../");
 }
+

@@ -8,34 +8,34 @@
             <a href="./newsfeed" class="iq-waves-effect"><i class="las la-newspaper"></i><span>Newsfeed</span></a>
           </li>
           <li>
-            <a href="profile.html" class="iq-waves-effect"><i class="las la-user"></i><span>Profile</span></a>
+            <a href="profile" class="iq-waves-effect"><i class="las la-user"></i><span>Profile</span></a>
           </li>
-          <li>
+          <!-- <li>
             <a href="friend-list.html" class="iq-waves-effect"><i class="las la-user-friends"></i><span>Friend Lists</span></a>
-          </li>
+          </li> -->
           <li>
             <a href="group.html" class="iq-waves-effect"><i class="las la-users"></i><span>Group</span></a>
           </li>
-          <li>
+          <!-- <li>
             <a href="profile-images.html" class="iq-waves-effect"><i class="las la-image"></i><span>Profile Image</span></a>
-          </li>
-          <li>
+          </li> -->
+          <!-- <li>
             <a href="profile-video.html" class="iq-waves-effect"><i class="las la-video"></i><span>Profile Video</span></a>
-          </li>
-          <li>
+          </li> -->
+          <!-- <li>
             <a href="profile-event.html" class="iq-waves-effect"><i class="las la-film"></i><span>Profile Events</span></a>
-          </li>
+          </li> -->
           <li>
-            <a href="notification.html" class="iq-waves-effect"><i class="las la-bell"></i><span>Notification</span></a>
+            <a href="notification" class="iq-waves-effect"><i class="las la-bell"></i><span>Notification</span></a>
           </li>
-          <li class="active">
+          <!-- <li class="active">
             <a href="file.html" class="iq-waves-effect"><i class="las la-file"></i><span>Files</span></a>
+          </li> -->
+          <li>
+            <a href="friend-request" class="iq-waves-effect"><i class="las la-anchor"></i><span>Friend Request</span></a>
           </li>
           <li>
-            <a href="friend-request.html" class="iq-waves-effect"><i class="las la-anchor"></i><span>Friend Request</span></a>
-          </li>
-          <li>
-            <a href="chat.html" class="iq-waves-effect"><i class="lab la-rocketchat"></i><span>Chat</span></a>
+            <a href="chat" class="iq-waves-effect"><i class="lab la-rocketchat"></i><span>Chat</span></a>
           </li>
           <li>
             <a href="todo.html" class="iq-waves-effect"><i class="las la-check-circle"></i><span>Todo</span></a>

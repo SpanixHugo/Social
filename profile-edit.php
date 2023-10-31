@@ -62,6 +62,11 @@
                                     Change Password
                                     </a>
                                  </li>
+                                 <li class="col-md-3 p-0">
+                                    <a class="nav-link" data-toggle="pill" href="#emailandsms">
+                                    Email and SMS
+                                    </a>
+                                 </li>
 
                                  <li class="col-md-3 p-0">
                                     <a class="nav-link" data-toggle="pill" href="#manage-contact">
@@ -176,22 +181,25 @@
                                     </div>
                                  </div>
                                  <div class="iq-card-body">
-                                    <form>
+                                    <form method="post" action="./handlers/profile_handler.php">
+                                       <div class="form-group">
+                                          <input type="hidden" class="form-control" id="cpass" value="<?=$USER['user_id'] ?>" name="user_id" required>
+                                       </div>
                                        <div class="form-group">
                                           <label for="cpass">Current Password:</label>
                                           <a href="javascripe:void();" class="float-right">Forgot Password</a>
-                                          <input type="Password" class="form-control" id="cpass" value="">
+                                          <input type="Password" class="form-control" id="cpass" value="" name="old_password" required>
                                        </div>
                                        <div class="form-group">
                                           <label for="npass">New Password:</label>
-                                          <input type="Password" class="form-control" id="npass" value="">
+                                          <input type="Password" class="form-control" id="npass" value="" name="new_password" required>
                                        </div>
                                        <div class="form-group">
                                           <label for="vpass">Verify Password:</label>
-                                          <input type="Password" class="form-control" id="vpass" value="">
+                                          <input type="Password" class="form-control" id="vpass" value="" name="confirm_new_password" required>
                                        </div>
-                                       <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                       <button type="reset" class="btn iq-bg-danger">Cancle</button>
+                                       <button type="submit" class="btn btn-primary mr-2" name="change_password">Submit</button>
+                                       <button type="reset" class="btn iq-bg-danger">Cancel</button>
                                     </form>
                                  </div>
                               </div>
@@ -267,21 +275,21 @@
                                     </div>
                                  </div>
                                  <div class="iq-card-body">
-                                    <form>
+                                    <form method="post" action="./handlers/profile_handler.php">
+                                       <div class="form-group">
+                                          <input type="hidden" class="form-control" id="cno" value="<?= $USER['user_id'] ?? " " ?>" name="c-id">
+                                       </div>
                                        <div class="form-group">
                                           <label for="cno">Contact Number:</label>
-                                          <input type="text" class="form-control" id="cno" value="001 2536 123 458">
+                                          <input type="text" class="form-control" id="cno" value="<?= $USER['phone'] ?? " " ?>" name="c-num">
                                        </div>
                                        <div class="form-group">
                                           <label for="email">Email:</label>
-                                          <input type="text" class="form-control" id="email" value="Bnijone@demo.com">
+                                          <input type="text" class="form-control" id="email" value="<?= $USER['email'] ?? " " ?>" name="c-email">
                                        </div>
-                                       <div class="form-group">
-                                          <label for="url">Url:</label>
-                                          <input type="text" class="form-control" id="url" value="https://getbootstrap.com">
-                                       </div>
-                                       <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                       <button type="reset" class="btn iq-bg-danger">Cancle</button>
+                                       
+                                       <button type="submit" class="btn btn-primary mr-2" name="c-submit">Submit</button>
+                                       <button type="reset" class="btn iq-bg-danger">Cancel</button>
                                     </form>
                                  </div>
                               </div>
